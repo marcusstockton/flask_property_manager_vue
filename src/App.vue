@@ -1,12 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <md-tabs md-sync-route>
+      <md-tab id="tab-home" md-label="Home" md-icon="home" to="/" exact>
+      </md-tab>
+      <md-tab id="tab-pages" md-label="About" to="/about"> </md-tab>
+      <md-tab id="tab-posts" md-label="Portfolios" to="/portfolios"> </md-tab>
+      <md-tab id="tab-login" md-label="Login" to="/login"> </md-tab>
+      <md-tab id="tab-favorites" md-label="Register" to="/register"> </md-tab>
+    </md-tabs>
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/portfolios">Portfolios</router-link> |
+      <router-link to="/login">Login</router-link> |
+      <router-link to="/register">Register</router-link>
+    </div> -->
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: "app",
+  computed: {
+    alert() {
+      return this.$store.state.alert;
+    }
+  },
+  watch: {
+    $route() {
+      // clear alert on location change
+      this.$store.dispatch("alert/clear");
+    }
+  }
+};
+</script>
 
 <style>
 #app {

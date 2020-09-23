@@ -1,57 +1,65 @@
 <template>
-  <div>
-    <div class="alert alert-info">
-      Username: test@test.com<br />
-      Password: test
-    </div>
-    <h2>Login</h2>
+  <div class="md-layout md-gutter md-alignment-top-center">
     <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          v-model="username"
-          name="username"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !username }"
-        />
-        <div v-show="submitted && !username" class="invalid-feedback">
-          Username is required
+      <md-card>
+        <div>
+          Username: test@test.com<br />
+          Password: test
         </div>
-      </div>
-      <div class="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          v-model="password"
-          name="password"
-          class="form-control"
-          :class="{ 'is-invalid': submitted && !password }"
-        />
-        <div v-show="submitted && !password" class="invalid-feedback">
-          Password is required
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary" :disabled="loggingIn">Login</button>
-        <img
-          v-show="loggingIn"
-          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-        />
-      </div>
+        <md-card-header>
+          <div class="md-title">Log In</div>
+        </md-card-header>
+        <md-card-content class="md-layout md-gutter">
+          <md-field :class="getValidationClass('username')">
+                    <label for="username">Username</label>
+                    <md-input name="username" id="username" autocomplete="username" v-model="form.username" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.username.required">The username is required</span>
+                    <span class="md-error" v-else-if="!$v.form.username.minlength">Invalid username</span>
+          </md-field>
+          <md-field :class="getValidationClass('password')">
+                    <label for="password">Password</label>
+                    <md-input name="password" id="password" autocomplete="password" v-model="form.password" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+                    <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
+          </md-field>
+        </md-card-content>
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" :disabled="loggingIn">Login</md-button>
+        </md-card-actions>
+      </md-card>
     </form>
   </div>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import {
+    required,
+    minLength,
+  } from 'vuelidate/lib/validators'
 export default {
-  data() {
-    return {
-      username: "",
-      password: "",
-      submitted: false
-    };
-  },
+  mixins: [validationMixin],
+  data: () => ({
+      form: {
+        username: null,
+        password: null,
+      },
+      userSaved: false,
+      sending: false,
+      lastUser: null
+    }),
+    validations: {
+      form: {
+        username: {
+          required,
+          minLength: minLength(3)
+        },
+        password: {
+          required,
+          minLength: minLength(3)
+        }
+      }
+    },
   computed: {
     loggingIn() {
       return this.$store.state.authentication.status.loggingIn;
@@ -69,6 +77,15 @@ export default {
       if (username && password) {
         dispatch("authentication/login", { username, password });
       }
+    },
+    getValidationClass (fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
     }
   }
 };

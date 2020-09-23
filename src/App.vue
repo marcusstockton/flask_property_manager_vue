@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <md-tabs md-sync-route>
-      <md-tab id="tab-home" md-label="Home" md-icon="home" to="/" exact>
+      <md-tab id="tab-home"  md-icon="home" to="/" exact> <!--md-label="Home"-->
       </md-tab>
       <md-tab id="tab-pages" md-label="About" to="/about"> </md-tab>
       <md-tab id="tab-posts" md-label="Portfolios" to="/portfolios"> </md-tab>

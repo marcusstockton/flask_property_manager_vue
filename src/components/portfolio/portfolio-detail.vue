@@ -1,6 +1,5 @@
 <template lang="html">
   <section class="portfolio-portfolio-detail">
-    <h1>portfolio-portfolio-detail Component</h1>
     <p>PortfolioId: {{ portfolioId }}</p>
     <PropertyList
       v-if="portfolioId"

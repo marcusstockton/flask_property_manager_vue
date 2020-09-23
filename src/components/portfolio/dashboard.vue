@@ -1,6 +1,5 @@
 <template lang="html">
   <section class="portfolio-dashboard">
-    <h1>portfolio-dashboard Component</h1>
     <router-view></router-view>
   </section>
 </template>

@@ -1,28 +1,27 @@
 <template>
   <div id="app">
+    
     <md-tabs md-sync-route>
-      <md-tab id="tab-home"  md-icon="home" to="/" exact> <!--md-label="Home"-->
+      <md-tab id="tab-home" md-icon="home" to="/" exact>
       </md-tab>
       <md-tab id="tab-pages" md-label="About" to="/about"> </md-tab>
       <md-tab id="tab-posts" md-label="Portfolios" to="/portfolios"> </md-tab>
-      <md-tab id="tab-login" md-label="Login" to="/login"> </md-tab>
-      <md-tab id="tab-favorites" md-label="Register" to="/register"> </md-tab>
+      <md-tab v-if="!isLoggedIn" id="tab-login" md-label="Login" to="/login"> </md-tab>
+      <md-tab v-if="!isLoggedIn" id="tab-favorites" md-label="Register" to="/register"> </md-tab>
+      <md-tab v-if="isLoggedIn" id="tab-favorites" md-label="Logout" v-on:click="logout"> </md-tab>
     </md-tabs>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/portfolios">Portfolios</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/register">Register</router-link>
-    </div> -->
     <router-view />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: "app",
   computed: {
+  ...mapState({
+       isLoggedIn: state => state.authentication.status.loggedIn
+     }),
     alert() {
       return this.$store.state.alert;
     }
@@ -31,6 +30,11 @@ export default {
     $route() {
       // clear alert on location change
       this.$store.dispatch("alert/clear");
+    }
+  },
+  methods:{
+    logout: function(){
+      this.$store.dispatch("authentication/logout");
     }
   }
 };

@@ -1,37 +1,51 @@
 <template lang="html">
   <section class="property-property-list">
     <p>PortfolioId: {{ portfolioId }}</p>
-<!-- https://vuematerial.io/components/table -->
+    <!-- https://vuematerial.io/components/table -->
 
     <md-table v-model="propertyList" md-card>
       <md-table-toolbar>
         <div class="md-toolbar-section-start">
-            <h1 class="md-title">Properties</h1>
-          </div>
-          <md-field md-clearable class="md-toolbar-section-end">
-            <md-input
-              placeholder="Search by name..."
-              v-model="search"
-              @input="searchOnTable"
-            />
-            </md-field>
+          <h1 class="md-title">Properties</h1>
+        </div>
+        <md-field md-clearable class="md-toolbar-section-end">
+          <md-input
+            placeholder="Search by name..."
+            v-model="search"
+            @input="searchOnTable"
+          />
+        </md-field>
       </md-table-toolbar>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-        <md-table-cell md-label="Purchase Price" md-numeric md-sort-by="purchase_price">{{ item.purchase_price }}</md-table-cell>
-        <md-table-cell md-label="Monthly Rental Price" md-numeric md-sort-by="monthly_rental_price">{{ item.monthly_rental_price }}</md-table-cell>
-        <md-table-cell md-label="Address">{{ addressBuilder(item.address) }}</md-table-cell>
-        <md-table-cell md-label="Postcode">{{ item.address.post_code }}</md-table-cell>
+        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
+          item.id
+        }}</md-table-cell>
+        <md-table-cell
+          md-label="Purchase Price"
+          md-numeric
+          md-sort-by="purchase_price"
+          >{{ item.purchase_price }}</md-table-cell
+        >
+        <md-table-cell
+          md-label="Monthly Rental Price"
+          md-numeric
+          md-sort-by="monthly_rental_price"
+          >{{ item.monthly_rental_price }}</md-table-cell
+        >
+        <md-table-cell md-label="Address">{{
+          addressBuilder(item.address)
+        }}</md-table-cell>
+        <md-table-cell md-label="Postcode">{{
+          item.address.post_code
+        }}</md-table-cell>
         <md-table-cell md-label="Town">{{ item.address.town }}</md-table-cell>
         <md-table-cell md-label="City">{{ item.address.city }}</md-table-cell>
-        <md-table-cell md-label="# Tenants">{{ item.tenants.length }}</md-table-cell>
+        <md-table-cell md-label="# Tenants">{{
+          item.tenants.length
+        }}</md-table-cell>
       </md-table-row>
     </md-table>
-
-
-
-
 
     <!--<md-table v-model="propertyList" md-card>
        <md-table-toolbar>

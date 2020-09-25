@@ -1,137 +1,221 @@
-<template lang="html">
-  <section class="auth-register">
-    <div>
-      <h2>Register</h2>
-      <form @submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            v-model="username"
-            name="username"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !username }"
-          />
-          <div v-show="submitted && !username" class="invalid-feedback">
-            Username is required
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="emailaddress">Email Address</label>
-          <input
-            type="email"
-            v-model="emailaddress"
-            name="emailaddress"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !emailaddress }"
-          />
-        </div>
+<template>
+  <div class="login-form-flex">
+    <form @submit.prevent="handleSubmit" class="md-layout" novalidate>
+      <md-card class="example-card">
+        <md-card-header>
+          <div class="md-title">Register</div>
+        </md-card-header>
+        <md-card-content class="md-layout md-gutter">
+          <md-field :class="getValidationClass('username')">
+            <label for="username">User name</label>
+            <md-input
+              name="username"
+              id="username"
+              autocomplete="username"
+              v-model="form.username"
+              :disabled="sending"
+            />
+            <span class="md-helper-text">Your username</span>
+            <span class="md-error" v-if="!$v.form.username.required"
+              >The username is required</span
+            >
+            <span class="md-error" v-else-if="!$v.form.username.minlength"
+              >Invalid username</span
+            >
+          </md-field>
 
-        <div class="form-group">
-          <label for="firstname">First Name</label>
-          <input
-            type="text"
-            v-model="firstname"
-            name="firstname"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !firstname }"
-          />
-        </div>
+          <md-field :class="getValidationClass('emailaddress')">
+            <label for="emailaddress">Email Address</label>
+            <md-input
+              type="email"
+              name="emailaddress"
+              id="emailaddress"
+              autocomplete="emailaddress"
+              v-model="form.emailaddress"
+              :disabled="sending"
+            />
+            <span class="md-error" v-if="!$v.form.emailaddress.required"
+              >The email address is required</span
+            >
+            <span class="md-error" v-else-if="!$v.form.emailaddress.minlength"
+              >Invalid email address</span
+            >
+            <span class="md-error" v-else-if="!$v.form.emailaddress.email"
+              >Email is invalid</span
+            >
+          </md-field>
 
-        <div class="form-group">
-          <label for="lastname">Last Name</label>
-          <input
-            type="text"
-            v-model="lastname"
-            name="lastname"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !lastname }"
-          />
-        </div>
+          <md-field :class="getValidationClass('firstname')" class="column-50">
+            <label for="firstname">First Name</label>
+            <md-input
+              name="firstname"
+              id="firstname"
+              autocomplete="firstname"
+              v-model="form.firstname"
+              :disabled="sending"
+            />
+          </md-field>
+          <md-field :class="getValidationClass('lastname')" class="column-50">
+            <label for="lastname">Last Name</label>
+            <md-input
+              name="lastname"
+              id="lastname"
+              autocomplete="lastname"
+              v-model="form.lastname"
+              :disabled="sending"
+            />
+          </md-field>
 
-        <div class="form-group">
-          <label for="dateofbirth">Date Of Birth</label>
-          <input
-            type="text"
-            v-model="dateofbirth"
-            name="dateofbirth"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !dateofbirth }"
-          />
-        </div>
+          <md-field :class="getValidationClass('dateofbirth')">
+            <label for="dateofbirth">Date Of Birth</label>
+            <md-input
+              type="date"
+              name="dateofbirth"
+              id="dateofbirth"
+              v-model="form.dateofbirth"
+              :disabled="sending"
+            />
+          </md-field>
 
-        <div class="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            v-model="password"
-            name="password"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !password }"
-          />
-          <div v-show="submitted && !password" class="invalid-feedback">
-            Password is required
-          </div>
-        </div>
-        <div class="form-group">
-          <label htmlFor="password">Password2</label>
-          <input
-            type="password"
-            v-model="password2"
-            name="password"
-            class="form-control"
-            :class="{ 'is-invalid': submitted && !password2 }"
-          />
-          <div v-show="submitted && !password" class="invalid-feedback">
-            Password is required
-          </div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary" :disabled="loggingIn">Login</button>
-          <img
-            v-show="loggingIn"
-            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-          />
-        </div>
-      </form>
-    </div>
-  </section>
+          <md-field :class="getValidationClass('password')">
+            <label for="password">Password</label>
+            <md-input
+              type="password"
+              name="password"
+              id="password"
+              v-model="form.password"
+              :disabled="sending"
+            />
+            <span class="md-error" v-if="!$v.form.password.required"
+              >The password is required</span
+            >
+          </md-field>
+          <md-field :class="getValidationClass('password2')">
+            <label for="password2">Confirm Password</label>
+            <md-input
+              type="password"
+              name="password2"
+              id="password2"
+              v-model="form.password2"
+              :disabled="sending"
+            />
+            <span v-if="!$v.form.password2.required"
+              >Confirm Password is required</span
+            >
+            <span class="md-error" v-if="!$v.form.password2.sameAsPassword"
+              >Passwords must match</span
+            >
+          </md-field>
+        </md-card-content>
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" :disabled="sending"
+            >Register</md-button
+          >
+        </md-card-actions>
+      </md-card>
+    </form>
+  </div>
 </template>
 
-<script lang="js">
-
-  export default  {
-    name: 'auth-register',
-    props: [],
-    mounted () {
-
-    },
-    data () {
-      return {
-      username: '',
-      emailaddress: '',
-      firstname: '',
-      lastname: '',
-      dateofbirth: '',
-      password: '',
-      password2: '',
+<script>
+import { validationMixin } from "vuelidate";
+import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+export default {
+  mixins: [validationMixin],
+  name: "auth-register",
+  props: [],
+  mounted() {},
+  data: () => ({
+    sending: false,
+    form: {
+      username: null,
+      emailaddress: null,
+      firstname: null,
+      lastname: null,
+      dateofbirth: null,
+      password: null,
+      password2: null,
       submitted: false
-    };
-    },
-    methods: {
-      handleSubmit() {
-        this.submitted = true;
-        const { username, emailaddress, firstname, lastname, dateofbirth, password } = this;
-        const { dispatch } = this.$store;
-        if (username && password) {
-          dispatch('user/login', { username, emailaddress, firstname, lastname, dateofbirth, password });
-        }
+    }
+  }),
+  validations: {
+    form: {
+      username: {
+        required,
+        minLength: minLength(3)
+      },
+      password: {
+        required,
+        minLength: minLength(3)
+      },
+      password2: {
+        required,
+        sameAsPassword: sameAs("password")
+      },
+      emailaddress: {
+        required,
+        email
+      }
+    }
+  },
+  methods: {
+    handleSubmit() {
+      this.$v.$touch();
+      this.submitted = true;
+
+      const {
+        username,
+        emailaddress,
+        firstname,
+        lastname,
+        dateofbirth,
+        password
+      } = this.form;
+      const { dispatch } = this.$store;
+      if (username && password && !this.$v.$invalid) {
+        dispatch("user/login", {
+          username,
+          emailaddress,
+          firstname,
+          lastname,
+          dateofbirth,
+          password
+        });
       }
     },
-    computed: {
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
 
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty
+        };
+      }
     }
-}
+  },
+  computed: {}
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .registerView {
+  background-color: blueviolet !important;
+  display: flex !important;
+  align-content: center;
+} */
+.login-form-flex {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100% !important;
+}
+.example-card {
+  margin: auto;
+  margin-top: 5%;
+  width: 30vw;
+}
+.column-50 {
+  min-width: 50%;
+  flex: 1 0 50%;
+}
+</style>

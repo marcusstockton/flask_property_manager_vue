@@ -43,8 +43,12 @@
             >
           </md-field>
 
-          <md-snackbar md-position="center" :md-duration="4000" :md-active.sync="this.$store.state.alert.message">
-            <span>{{this.$store.state.alert.message}}</span>
+          <md-snackbar
+            md-position="center"
+            :md-duration="4000"
+            :md-active.sync="this.$store.state.alert.message"
+          >
+            <span>{{ this.$store.state.alert.message }}</span>
             <md-button class="md-primary">Ok</md-button>
           </md-snackbar>
         </md-card-content>
@@ -113,7 +117,7 @@ export default {
           "md-invalid": field.$invalid && field.$dirty
         };
       }
-    },
+    }
   }
 };
 </script>

@@ -114,12 +114,21 @@
         </md-card-actions>
       </md-card>
     </form>
+              <md-snackbar
+            md-position="center"
+            :md-duration="4000"
+            :md-active.sync="this.$store.state.alert.message"
+          >
+            <span>{{ this.$store.state.alert.message }}</span>
+            <md-button class="md-primary">Ok</md-button>
+          </md-snackbar>
   </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+
 export default {
   mixins: [validationMixin],
   name: "auth-register",
@@ -172,8 +181,8 @@ export default {
         password
       } = this.form;
       const { dispatch } = this.$store;
-      if (username && password && !this.$v.$invalid) {
-        dispatch("user/login", {
+      if (!this.$v.$invalid) {
+        dispatch("user/register", {
           username,
           emailaddress,
           firstname,

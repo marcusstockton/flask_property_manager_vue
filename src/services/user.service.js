@@ -2,6 +2,7 @@ import { authHeader } from "../helpers/auth-header";
 export const userService = {
   login,
   logout,
+  register,
   getAll
 };
 
@@ -15,6 +16,25 @@ function login(username, password) {
   };
 
   return fetch(`${BASEURL}/auth/login`, requestOptions)
+    .then(handleResponse)
+    .then(user => {
+      // login successful if there's a jwt token in the response
+      if (user.Authorization) {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+      return user;
+    });
+}
+
+function register(username, emailaddress, firstname, lastname, dateofbirth, password) {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: emailaddress, username, firstname, lastname, dateofbirth, password })
+  };
+
+  return fetch(`${BASEURL}/user/`, requestOptions)
     .then(handleResponse)
     .then(user => {
       // login successful if there's a jwt token in the response

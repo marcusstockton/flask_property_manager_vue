@@ -114,14 +114,14 @@
         </md-card-actions>
       </md-card>
     </form>
-              <md-snackbar
-            md-position="center"
-            :md-duration="4000"
-            :md-active.sync="this.$store.state.alert.message"
-          >
-            <span>{{ this.$store.state.alert.message }}</span>
-            <md-button class="md-primary">Ok</md-button>
-          </md-snackbar>
+    <md-snackbar
+      md-position="center"
+      :md-duration="4000"
+      :md-active.sync="this.$store.state.alert.message"
+    >
+      <span>{{ this.$store.state.alert.message }}</span>
+      <md-button class="md-primary">Ok</md-button>
+    </md-snackbar>
   </div>
 </template>
 

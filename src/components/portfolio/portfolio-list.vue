@@ -18,7 +18,7 @@
         <md-table-empty-state
           md-label="No portfolio's found"
           :md-description="
-            `No portfolio found for this '${search}' query. Try a different search term or create a new user.`
+            `No portfolio found for this '${search}' query. Try a different search term or create a new portfolio.`
           "
         >
           <md-button class="md-primary md-raised" @click="newPortfolio"
@@ -79,6 +79,7 @@
 
       newPortfolio(){
         console.log("Create new portfolio");
+        this.$router.push({ name: 'portfolioCreate'} );
       },
 
       searchOnTable () {

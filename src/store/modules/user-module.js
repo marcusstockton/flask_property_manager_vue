@@ -63,7 +63,7 @@ export const user = {
     loginSuccess(state, user) {
       state.status = { loggedIn: true };
       state.user = user;
-    },
+    }
     // loginFailure(state) {
     //   state.status = {};
     //   state.user = null;

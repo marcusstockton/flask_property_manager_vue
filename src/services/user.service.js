@@ -27,11 +27,25 @@ function login(username, password) {
     });
 }
 
-function register(username, emailaddress, firstname, lastname, dateofbirth, password) {
+function register(
+  username,
+  emailaddress,
+  firstname,
+  lastname,
+  dateofbirth,
+  password
+) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: emailaddress, username, firstname, lastname, dateofbirth, password })
+    body: JSON.stringify({
+      email: emailaddress,
+      username,
+      firstname,
+      lastname,
+      dateofbirth,
+      password
+    })
   };
 
   return fetch(`${BASEURL}/user/`, requestOptions)

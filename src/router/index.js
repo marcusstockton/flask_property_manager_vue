@@ -48,6 +48,7 @@ const routes = [
       },
       {
         path: "create",
+        name: "portfolioCreate",
         component: () =>
           import(
             /* webpackChunkName: "portfolio-create" */ "../components/portfolio/portfolio-form.vue"

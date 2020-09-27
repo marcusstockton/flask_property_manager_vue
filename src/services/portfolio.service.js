@@ -1,9 +1,9 @@
 import { authHeader } from "../helpers/auth-header";
 
 export const PortfolioService = {
-  getPortfolios
+  getPortfolios,
   // getPortfolio,
-  // createPortfolio,
+  createPortfolio
   // updatePortfolio
 };
 
@@ -27,12 +27,16 @@ function getPortfolios() {
 //   };
 // }
 
-// function createPortfolio(portfolio) {
-//   const requestOptions = {
-//     method: "POST",
-//     headers: authHeader()
-//   };
-// }
+function createPortfolio(portfolioName) {
+  const requestOptions = {
+    method: "POST",
+    headers: authHeader(),
+    body: JSON.stringify({ name: portfolioName })
+  };
+  return fetch(`${BASEURL}/portfolio/`, requestOptions).then(response => {
+    return response;
+  });
+}
 
 // function updatePortfolio(portfolio) {
 //   const requestOptions = {

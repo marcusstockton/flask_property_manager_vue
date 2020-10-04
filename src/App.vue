@@ -47,6 +47,17 @@ export default {
     logout: function() {
       this.$store.dispatch("authentication/logout");
     }
+  },
+  created: function() {
+    const fetch = window.fetch;
+    window.fetch = (...args) =>
+      (async args => {
+        var result = await fetch(...args);
+        if (result.status == 401) {
+          this.$store.dispatch("authentication/logout");
+        }
+        return result;
+      })(args);
   }
 };
 </script>

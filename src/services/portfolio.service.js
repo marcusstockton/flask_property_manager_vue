@@ -33,9 +33,11 @@ function createPortfolio(portfolioName) {
     headers: authHeader(),
     body: JSON.stringify({ name: portfolioName })
   };
-  return fetch(`${BASEURL}/portfolio/`, requestOptions).then(response => {
-    return response;
-  });
+  return fetch(`${BASEURL}/portfolio/`, requestOptions)
+    .then(response => response.json())
+    .then(json => {
+      return json.data;
+    });
 }
 
 // function updatePortfolio(portfolio) {

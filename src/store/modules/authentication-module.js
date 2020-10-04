@@ -12,7 +12,6 @@ export const authentication = {
   actions: {
     login({ dispatch, commit }, { username, password }) {
       commit("loginRequest", { username });
-
       userService.login(username, password).then(
         user => {
           commit("loginSuccess", user);

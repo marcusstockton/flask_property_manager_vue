@@ -47,6 +47,8 @@
 import { validationMixin } from "vuelidate";
 import { required, minLength } from "vuelidate/lib/validators";
 import {PortfolioService} from '../../services/portfolio.service'
+
+
   export default  {
     mixins: [validationMixin],
     name: 'PortfolioForm',
@@ -71,9 +73,9 @@ validations: {
     methods: {
       savePortfolio () {
         this.sending = true;
-        PortfolioService.createPortfolio(this.form.name).then((result)=>{
-          alert(result);
+        PortfolioService.createPortfolio(this.form.name).then((response)=>{
            this.sending = false;
+           this.$router.push(`/portfolios/${response.id}`);
       })
 
       },

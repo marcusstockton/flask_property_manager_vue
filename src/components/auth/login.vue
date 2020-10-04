@@ -46,7 +46,7 @@
           <md-snackbar
             md-position="center"
             :md-duration="4000"
-            :md-active.sync="this.$store.state.alert.message"
+            :md-active.sync="hasFormErrors"
           >
             <span>{{ this.$store.state.alert.message }}</span>
             <md-button class="md-primary">Ok</md-button>
@@ -75,7 +75,7 @@ export default {
     },
     userSaved: false,
     sending: false,
-    lastUser: null
+    formError: false
   }),
   validations: {
     form: {
@@ -92,6 +92,15 @@ export default {
   computed: {
     loggingIn() {
       return this.$store.state.authentication.status.loggingIn;
+    },
+    hasFormErrors() {
+      if (
+        this.$store.state.alert.message &&
+        this.$store.state.alert.message != ""
+      ) {
+        return true;
+      }
+      return false;
     }
   },
   created() {
@@ -102,6 +111,7 @@ export default {
     handleSubmit() {
       this.$v.$touch();
       this.submitted = true;
+      this.formError = false;
       const username = this.form.username;
       const password = this.form.password;
       const { dispatch } = this.$store;

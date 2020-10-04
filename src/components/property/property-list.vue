@@ -110,6 +110,18 @@
 
   import {PropertyService} from '../../services/property.service'
 
+  const toLower = text => {
+    return text.toString().toLowerCase()
+  }
+
+  const searchByName = (items, term) => {
+    if (term) {
+      return items.filter(item => toLower(item.name).includes(toLower(term)))
+    }
+
+    return items
+  }
+
   export default  {
     name: 'PropertyList',
     props: ['portfolioId'],
@@ -121,11 +133,14 @@
     },
     data () {
       return {
+        search:'',
         propertyList:[]
       }
     },
     methods: {
-
+      searchOnTable () {
+        this.searched = searchByName(this.portfolioList, this.search)
+      }
     },
     calculated(){
     },

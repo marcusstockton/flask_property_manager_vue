@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="portfolio-list">
+  <section class="portfolio-list" md-flex="20">
     <h1>portfolio-list Component</h1>
     <div>
       <md-table v-model="portfolioList" md-card>
@@ -31,14 +31,17 @@
           slot-scope="{ item }"
           @click="goToPortfolio(item.id)"
         >
-          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
-            item.id
-          }}</md-table-cell>
-          <md-table-cell md-label="Name" md-sort-by="name">{{
-            item.name
-          }}</md-table-cell>
+          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{item.id}}</md-table-cell>
+          <md-table-cell md-label="Name" md-sort-by="name">{{item.name}}</md-table-cell>
+
         </md-table-row>
       </md-table>
+      <md-button
+        class="md-primary md-raised"
+        v-if="portfolioList.length > 0"
+        @click="newPortfolio"
+        >Create New Portfolio</md-button
+      >
     </div>
   </section>
 </template>
@@ -93,4 +96,17 @@
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.md-field {
+    max-width: 300px;
+  }
+.md-table-cell {
+  max-width: 300px;
+}
+.md-table{
+  max-width: 600px;
+      display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>

@@ -31,9 +31,15 @@
           slot-scope="{ item }"
           @click="goToPortfolio(item.id)"
         >
-          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{item.id}}</md-table-cell>
-          <md-table-cell md-label="Name" md-sort-by="name">{{item.name}}</md-table-cell>
-
+          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
+            item.id
+          }}</md-table-cell>
+          <md-table-cell md-label="Name" md-sort-by="name">{{
+            item.name
+          }}</md-table-cell>
+          <md-table-cell md-label="# Properties" md-sort-by="propertyCount">{{
+            item.property_count
+          }}</md-table-cell>
         </md-table-row>
       </md-table>
       <md-button
@@ -43,6 +49,7 @@
         >Create New Portfolio</md-button
       >
     </div>
+    <md-button @click="$router.go(-1)">Back</md-button>
   </section>
 </template>
 
@@ -98,15 +105,15 @@
 
 <style scoped>
 .md-field {
-    max-width: 300px;
-  }
+  max-width: 300px;
+}
 .md-table-cell {
   max-width: 300px;
 }
-.md-table{
+.md-table {
   max-width: 600px;
-      display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

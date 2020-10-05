@@ -78,6 +78,7 @@ const routes = [
       },
       {
         path: ":portfolioId/properties/create",
+        name: "propertyCreate",
         component: () =>
           import(
             /* webpackChunkName: "property-create" */ "../components/property/property-form.vue"

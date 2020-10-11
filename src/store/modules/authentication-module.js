@@ -13,11 +13,11 @@ export const authentication = {
     login({ dispatch, commit }, { username, password }) {
       commit("loginRequest", { username });
       userService.login(username, password).then(
-        user => {
+        (user) => {
           commit("loginSuccess", user);
           router.push("/");
         },
-        error => {
+        (error) => {
           commit("loginFailure", error);
           dispatch("alert/error", error, { root: true });
         }
@@ -26,7 +26,7 @@ export const authentication = {
     logout({ commit }) {
       userService.logout();
       commit("logout");
-    }
+    },
   },
   mutations: {
     loginRequest(state, user) {
@@ -44,6 +44,6 @@ export const authentication = {
     logout(state) {
       state.status = {};
       state.user = null;
-    }
-  }
+    },
+  },
 };

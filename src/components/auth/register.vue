@@ -144,28 +144,28 @@ export default {
       dateofbirth: null,
       password: null,
       password2: null,
-      submitted: false
-    }
+      submitted: false,
+    },
   }),
   validations: {
     form: {
       username: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       password: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       password2: {
         required,
-        sameAsPassword: sameAs("password")
+        sameAsPassword: sameAs("password"),
       },
       emailaddress: {
         required,
-        email
-      }
-    }
+        email,
+      },
+    },
   },
   methods: {
     handleSubmit() {
@@ -178,7 +178,7 @@ export default {
         firstname,
         lastname,
         dateofbirth,
-        password
+        password,
       } = this.form;
       const { dispatch } = this.$store;
       if (!this.$v.$invalid) {
@@ -188,7 +188,7 @@ export default {
           firstname,
           lastname,
           dateofbirth,
-          password
+          password,
         });
       }
     },
@@ -197,12 +197,12 @@ export default {
 
       if (field) {
         return {
-          "md-invalid": field.$invalid && field.$dirty
+          "md-invalid": field.$invalid && field.$dirty,
         };
       }
-    }
+    },
   },
-  computed: {}
+  computed: {},
 };
 </script>
 

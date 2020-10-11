@@ -1,6 +1,6 @@
 const state = {
   type: null,
-  message: null
+  message: null,
 };
 
 const actions = {
@@ -12,7 +12,7 @@ const actions = {
   },
   clear({ commit }) {
     commit("clear");
-  }
+  },
 };
 
 const mutations = {
@@ -27,12 +27,12 @@ const mutations = {
   clear(state) {
     state.type = null;
     state.message = null;
-  }
+  },
 };
 
 export const alert = {
   namespaced: true,
   state,
   actions,
-  mutations
+  mutations,
 };

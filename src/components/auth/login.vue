@@ -71,23 +71,23 @@ export default {
   data: () => ({
     form: {
       username: null,
-      password: null
+      password: null,
     },
     userSaved: false,
     sending: false,
-    formError: false
+    formError: false,
   }),
   validations: {
     form: {
       username: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
       },
       password: {
         required,
-        minLength: minLength(3)
-      }
-    }
+        minLength: minLength(3),
+      },
+    },
   },
   computed: {
     loggingIn() {
@@ -101,7 +101,7 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   created() {
     // reset login status
@@ -124,10 +124,10 @@ export default {
 
       if (field) {
         return {
-          "md-invalid": field.$invalid && field.$dirty
+          "md-invalid": field.$invalid && field.$dirty,
         };
       }
-    }
-  }
+    },
+  },
 };
 </script>

@@ -148,7 +148,9 @@
                   v-model="form.address.post_code"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.address.post_code.required"
+                <span
+                  class="md-error"
+                  v-if="!$v.form.address.post_code.required"
                   >The post_code is required</span
                 >
                 <span

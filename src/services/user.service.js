@@ -3,7 +3,7 @@ export const userService = {
   login,
   logout,
   register,
-  getAll
+  getAll,
 };
 
 const BASEURL = "http://localhost:8089";
@@ -12,12 +12,12 @@ function login(username, password) {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: username, password: password })
+    body: JSON.stringify({ email: username, password: password }),
   };
 
   return fetch(`${BASEURL}/auth/login`, requestOptions)
     .then(handleResponse)
-    .then(user => {
+    .then((user) => {
       // login successful if there's a jwt token in the response
       if (user.Authorization) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -44,13 +44,13 @@ function register(
       firstname,
       lastname,
       dateofbirth,
-      password
-    })
+      password,
+    }),
   };
 
   return fetch(`${BASEURL}/user/`, requestOptions)
     .then(handleResponse)
-    .then(user => {
+    .then((user) => {
       // login successful if there's a jwt token in the response
       if (user.Authorization) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -68,14 +68,14 @@ function logout() {
 function getAll() {
   const requestOptions = {
     method: "GET",
-    headers: authHeader()
+    headers: authHeader(),
   };
 
   return fetch(`${BASEURL}/users`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
-  return response.text().then(text => {
+  return response.text().then((text) => {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {

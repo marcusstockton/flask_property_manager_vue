@@ -1,7 +1,7 @@
 import { authHeader } from "../helpers/auth-header";
 
 export const PropertyService = {
-  getProperties
+  getProperties,
   // getPortfolio,
   // createPortfolio,
   // updatePortfolio
@@ -12,13 +12,13 @@ const BASEURL = "http://localhost:8089";
 function getProperties(portfolioId) {
   const requestOptions = {
     method: "GET",
-    headers: authHeader()
+    headers: authHeader(),
   };
 
   return fetch(
     `${BASEURL}/portfolio/${portfolioId}/property/`,
     requestOptions
-  ).then(response => {
+  ).then((response) => {
     return response.json();
   });
 }

@@ -3,7 +3,7 @@ import { authHeader } from "../helpers/auth-header";
 export const PortfolioService = {
   getPortfolios,
   // getPortfolio,
-  createPortfolio
+  createPortfolio,
   // updatePortfolio
 };
 
@@ -12,10 +12,10 @@ const BASEURL = "http://localhost:8089";
 function getPortfolios() {
   const requestOptions = {
     method: "GET",
-    headers: authHeader()
+    headers: authHeader(),
   };
 
-  return fetch(`${BASEURL}/portfolio/`, requestOptions).then(response => {
+  return fetch(`${BASEURL}/portfolio/`, requestOptions).then((response) => {
     return response.json();
   });
 }
@@ -31,11 +31,11 @@ function createPortfolio(portfolioName) {
   const requestOptions = {
     method: "POST",
     headers: authHeader(),
-    body: JSON.stringify({ name: portfolioName })
+    body: JSON.stringify({ name: portfolioName }),
   };
   return fetch(`${BASEURL}/portfolio/`, requestOptions)
-    .then(response => response.json())
-    .then(json => {
+    .then((response) => response.json())
+    .then((json) => {
       return json.data;
     });
 }

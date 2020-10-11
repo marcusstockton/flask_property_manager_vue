@@ -13,7 +13,7 @@ export const user = {
         emailaddress,
         firstname,
         lastname,
-        dateofbirth
+        dateofbirth,
       });
       userService
         .register(
@@ -26,7 +26,7 @@ export const user = {
         )
         .then(
           // returns a token, username, userid, so...punt off to log in?
-          user => {
+          (user) => {
             // Authorization: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MDEyNDg1NzMsImlhdCI6MTYwMTE2MjE2OSwic3ViIjo2LCJ1c2VybmFtZSI6InJvc2llQHRoZWhhdC5jb20ifQ.pjn9LRn9fnZHDxTdtN3F7UZHE37ttSpOXtt5yE0CQw4"
             // message: "Successfully registered."
             // status: "success"
@@ -35,12 +35,12 @@ export const user = {
             commit("loginSuccess", user);
             router.push("/");
           },
-          error => {
+          (error) => {
             commit("registerFailure", error);
             dispatch("alert/error", error, { root: true });
           }
         );
-    }
+    },
   },
   mutations: {
     registerRequest(
@@ -63,7 +63,7 @@ export const user = {
     loginSuccess(state, user) {
       state.status = { loggedIn: true };
       state.user = user;
-    }
+    },
     // loginFailure(state) {
     //   state.status = {};
     //   state.user = null;
@@ -72,5 +72,5 @@ export const user = {
     //   state.status = {};
     //   state.user = null;
     // }
-  }
+  },
 };

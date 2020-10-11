@@ -14,6 +14,6 @@ export default new Vuex.Store({
   modules: {
     alert,
     authentication,
-    user
-  }
+    user,
+  },
 });

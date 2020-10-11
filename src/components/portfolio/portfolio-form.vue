@@ -34,7 +34,7 @@
       </md-card>
       <div class="line-break"></div>
       <md-button
-        style="display: inline-block;"
+        style="display: inline-block"
         class="md-raised"
         @click="$router.go(-1)"
         >Back</md-button

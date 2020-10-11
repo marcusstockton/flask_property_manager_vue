@@ -1,55 +1,59 @@
 <template lang="html">
-  <section class="portfolio-list" md-flex="20">
-    <h1>portfolio-list Component</h1>
-    <div>
-      <md-table v-model="portfolioList" md-card>
-        <md-table-toolbar>
-          <div class="md-toolbar-section-start">
-            <h1 class="md-title">Portfolio's</h1>
-          </div>
-          <md-field md-clearable class="md-toolbar-section-end">
-            <md-input
-              placeholder="Search by name..."
-              v-model="search"
-              @input="searchOnTable"
-            />
-          </md-field>
-        </md-table-toolbar>
-        <md-table-empty-state
-          md-label="No portfolio's found"
-          :md-description="
-            `No portfolio found for this '${search}' query. Try a different search term or create a new portfolio.`
-          "
-        >
-          <md-button class="md-primary md-raised" @click="newPortfolio"
-            >Create New Portfolio</md-button
+  <section id="portfolio-list">
+    <flex-row>
+      <h1>portfolio-list Component</h1>
+    </flex-row>
+    <flex-row>
+      <div id="portfolioTable">
+        <md-table v-model="portfolioList" md-card>
+          <md-table-toolbar>
+            <div class="md-toolbar-section-start">
+              <h1 class="md-title">Portfolio's</h1>
+            </div>
+            <md-field md-clearable class="md-toolbar-section-end">
+              <md-input
+                placeholder="Search by name..."
+                v-model="search"
+                @input="searchOnTable"
+              />
+            </md-field>
+          </md-table-toolbar>
+          <md-table-empty-state
+            md-label="No portfolio's found"
+            :md-description="`No portfolio found for this '${search}' query. Try a different search term or create a new portfolio.`"
           >
-        </md-table-empty-state>
+            <md-button class="md-primary md-raised" @click="newPortfolio"
+              >Create New Portfolio</md-button
+            >
+          </md-table-empty-state>
 
-        <md-table-row
-          slot="md-table-row"
-          slot-scope="{ item }"
-          @click="goToPortfolio(item.id)"
+          <md-table-row
+            slot="md-table-row"
+            slot-scope="{ item }"
+            @click="goToPortfolio(item.id)"
+          >
+            <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
+              item.id
+            }}</md-table-cell>
+            <md-table-cell md-label="Name" md-sort-by="name">{{
+              item.name
+            }}</md-table-cell>
+            <md-table-cell
+              md-label="# Properties"
+              md-sort-by="property_count"
+              md-numeric
+              >{{ item.property_count }}</md-table-cell
+            >
+          </md-table-row>
+        </md-table>
+        <md-button
+          class="md-primary md-raised"
+          v-if="portfolioList.length > 0"
+          @click="newPortfolio"
+          >Create New Portfolio</md-button
         >
-          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
-            item.id
-          }}</md-table-cell>
-          <md-table-cell md-label="Name" md-sort-by="name">{{
-            item.name
-          }}</md-table-cell>
-          <md-table-cell md-label="# Properties" md-sort-by="propertyCount">{{
-            item.property_count
-          }}</md-table-cell>
-        </md-table-row>
-      </md-table>
-      <md-button
-        class="md-primary md-raised"
-        v-if="portfolioList.length > 0"
-        @click="newPortfolio"
-        >Create New Portfolio</md-button
-      >
-    </div>
-    <md-button @click="$router.go(-1)">Back</md-button>
+      </div>
+    </flex-row>
   </section>
 </template>
 
@@ -104,16 +108,12 @@
 </script>
 
 <style scoped>
-.md-field {
-  max-width: 300px;
+#portfolio-list {
+  padding: 1rem;
 }
-.md-table-cell {
-  max-width: 300px;
-}
-.md-table {
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+#portfolioTable {
+  width: 75% !important;
+  margin: auto;
 }
 </style>

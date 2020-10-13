@@ -86,6 +86,7 @@ const routes = [
       },
       {
         path: ":portfolioId/properties/:propertyId",
+        name: "propertyDetails",
         component: () =>
           import(
             /* webpackChunkName: "property-detail" */ "../components/property/property-detail.vue"

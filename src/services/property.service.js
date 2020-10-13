@@ -2,7 +2,7 @@ import { authHeader } from "../helpers/auth-header";
 
 export const PropertyService = {
   getProperties,
-  // getPortfolio,
+  getPropertyById,
   // createPortfolio,
   // updatePortfolio
 };
@@ -23,6 +23,18 @@ function getProperties(portfolioId) {
   });
 }
 
+function getPropertyById(portfolioId, propertyId) {
+  const requestOptions = {
+    method: "GET",
+    headers: authHeader(),
+  };
+  return fetch(
+    `${BASEURL}/portfolio/${portfolioId}/property/${propertyId}`,
+    requestOptions
+  ).then((response) => {
+    return response.json();
+  });
+}
 // function getPortfolio(portfolioId) {
 //   const requestOptions = {
 //     method: "GET",

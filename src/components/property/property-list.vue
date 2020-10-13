@@ -24,7 +24,11 @@
             >Create New Property</md-button
           >
         </md-table-empty-state>
-        <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-row
+          slot="md-table-row"
+          slot-scope="{ item }"
+          @click="goToProperty(portfolioId, item.id)"
+        >
           <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
             item.id
           }}</md-table-cell>
@@ -98,6 +102,9 @@
       newProperty(){
         console.log("Create new property");
         this.$router.push({ name: 'propertyCreate'} );
+      },
+      goToProperty: function(portfolioId, propertyId){
+        this.$router.push({ name: 'propertyDetails' , params: { portfolioId: portfolioId, propertyId: propertyId }} );
       },
     },
     calculated(){

@@ -35,9 +35,13 @@
             <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
               item.id
             }}</md-table-cell>
-            <md-table-cell md-label="Name" id="name" md-sort-by="name" md-numeric>{{
-              item.name
-            }}</md-table-cell>
+            <md-table-cell
+              md-label="Name"
+              id="name"
+              md-sort-by="name"
+              md-numeric
+              >{{ item.name }}</md-table-cell
+            >
             <md-table-cell
               md-label="# Properties"
               md-sort-by="property_count"

@@ -5,7 +5,7 @@
     </flex-row>
     <flex-row>
       <div id="portfolioTable">
-        <md-table v-model="portfolioList" md-card>
+        <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card>
           <md-table-toolbar>
             <div class="md-toolbar-section-start">
               <h1 class="md-title">Portfolio's</h1>
@@ -35,7 +35,7 @@
             <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{
               item.id
             }}</md-table-cell>
-            <md-table-cell md-label="Name" md-sort-by="name">{{
+            <md-table-cell md-label="Name" id="name" md-sort-by="name" md-numeric>{{
               item.name
             }}</md-table-cell>
             <md-table-cell
@@ -43,6 +43,12 @@
               md-sort-by="property_count"
               md-numeric
               >{{ item.property_count }}</md-table-cell
+            >
+            <md-table-cell
+              md-label="Total Monthly Income"
+              md-sort-by="total_income"
+              md-numeric
+              >{{ item.total_income }}</md-table-cell
             >
           </md-table-row>
         </md-table>
@@ -77,7 +83,8 @@
     props: [],
     mounted () {
       PortfolioService.getPortfolios().then((result)=>{
-        this.portfolioList = result.data;
+        this.portfolioList = [...result.data];
+        this.searched = [...this.portfolioList];
       })
     },
     data () {
